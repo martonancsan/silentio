@@ -1,0 +1,21 @@
+{
+  "name": "silentio.tech",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./router/router.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/martonancsan/silentio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/martonancsan/silentio/issues"
+  },
+  "homepage": "https://github.com/martonancsan/silentio#readme"
+}
