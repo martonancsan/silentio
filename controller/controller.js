@@ -4,7 +4,7 @@
 // model.js: contains code that
 // import {saveUnitData} from './model';
 const { response } = require('express');
-const { saveUnitData } = require('./model')
+const { saveUnitData } = require('../model')
 
 // lists a units measurement data from a certain time period
 // used by the chart on the opening screen
