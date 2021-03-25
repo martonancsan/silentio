@@ -6,6 +6,8 @@
 const { response } = require('express');
 const { saveUnitData } = require('../model')
 
+const moduleName = "CONTROLLER";
+
 // lists a units measurement data from a certain time period
 // used by the chart on the opening screen
 // this is the data that the user sees 
@@ -207,15 +209,14 @@ function processUnitData(unitData) {
     // var measurementData = unitData.measurement;
     let measurementString = JSON.stringify(unitData.measurement);
 
-    console.log(`Unit measurement recieved from unit ${unitId}`);
+    console.log(`${moduleName}: Unit measurement recieved from unit ${unitId}`);
     console.log(`Measurement took place on ${date} at ${hour}:${minute}`);
     console.log(`Measured data: ${measurementString}`);
 
     // saves unit data to database
     // returns true if data saved false if not
-    let unitDataSaved = true;
+    let unitDataSaved = saveUnitData(unitData);
 
-    // let unitDataSaved = saveUnitData(unitData);
     return unitDataSaved;
 }
 

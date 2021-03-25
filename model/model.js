@@ -1,3 +1,6 @@
+const moduleName = "MODEL";
+
+
 // TODO import firebase firestore or realtime DB, or both
 // whichever we want to use
 
@@ -29,12 +32,12 @@ async function getDataBetween(unitInfo, timeInterval) {
 // saves unit data to db
 async function saveUnitData(unitData) {
     var { userId, unitId, date, hour, minute, measurementData } = unitData;
-    console.log(`saveUnitData called`);
+    console.log(`${moduleName}: saveUnitData called`);
     // get dBreference
-    dbref = get(users / { userid } / units / { unitid } / days / { date } / hours / { hour } / minutes / { minute })
+    //dbref = get(users / { userid } / units / { unitid } / days / { date } / hours / { hour } / minutes / { minute })
     // add measurement data to DB
-    dbref.add(measurementData)
-    console.log(`Measured data saved`);
+    // dbref.add(measurementData)
+    console.log(`${moduleName}: Measured data saved`);
     return true;
 }
 
@@ -69,3 +72,5 @@ async function setUnitLocation(unitInfo) {
     let result = documentRef.set("location", location);
     return result;
 }
+
+module.exports = { saveUnitData }
