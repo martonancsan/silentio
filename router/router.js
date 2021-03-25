@@ -3,6 +3,7 @@
 const express = require("express");
 const router = express.Router();
 const app = express();
+// const {processUnitData} = require("../controller/controller.js");
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -18,12 +19,13 @@ app.get('/', function (req, res) {
 // POST method route
 app.post('/data', function (req, res) {
   // process received unit Data
+  console.log('SERVER: post request received');
   processUnitData(req.body);
   // send back HTTP status that everyting was fine
   // TODO check status codes
-  let statusOK;
-  res.status(statusOK);
-  res.send('Unit measurement data processed\n');
+  // let statusOK;
+  // res.status(statusOK);
+  // res.send('SERVER: Unit measurement data processed\n');
   // todo: add error handling and other status codes
   // it could be something standard
   // there will be something standard solution
