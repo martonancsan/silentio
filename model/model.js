@@ -1,3 +1,13 @@
+const admin = require('firebase-admin');
+
+const serviceAccount = require('./path/to/serviceAccountKey.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
+const db = admin.firestore();
+
 const moduleName = "MODEL";
 
 
@@ -34,7 +44,7 @@ async function saveUnitData(unitData) {
     var { userId, unitId, date, hour, minute, measurementData } = unitData;
     console.log(`${moduleName}: saveUnitData called`);
     // get dBreference
-    //dbref = get(users / { userid } / units / { unitid } / days / { date } / hours / { hour } / minutes / { minute })
+    dbref = firestore.get(users / { userid } / units / { unitid } / days / { date } / hours / { hour } / minutes / { minute })
     // add measurement data to DB
     // dbref.add(measurementData)
     console.log(`${moduleName}: Measured data saved`);
