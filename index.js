@@ -1,1 +1,1 @@
-var router = require('./router/router.js');
+var router = require('./router');
