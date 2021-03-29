@@ -1,15 +1,46 @@
-const admin = require('firebase-admin');
+// TODO: connect app here with firebase 
+// https://firebase.google.com/docs/firestore/quickstart#node.js_1
+// BE CAREFUL not to include service api key
+// use it as environment variable (export SERVIC_KEY) 
+// like it was said in 100 tips for firebase video
 
-const serviceAccount = require('./path/to/serviceAccountKey.json');
+const admin = require('firebase-admin');
+// TODO: ezt nem kellene titkosítani?
+const serviceAccount = require('/home/marton/Downloads/service-account-file.json');
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+    credential: admin.credential.cert(serviceAccount)
 });
 
 const db = admin.firestore();
 
 const moduleName = "MODEL";
 
+
+
+// saves unit data to db
+async function saveUnitData(unitData) {
+    console.log(`${moduleName}: saveUnitData called`);
+
+    var { userId, unitId, date, hour, minute, measurement } = unitData;
+    
+    // TODO: implement like this: get collection (users / { userid } / units / { unitid } / days / { date } / hours / { hour } / minutes / )
+    // get collection of measurement for user and unit
+    const collection = db.collection('users').doc('SfUF6EuUu9xQBFrG0Rxc')
+        .collection('units').doc('749112039873').collection('measurements')
+
+    // Add a new document with a generated id.
+    const res = await collection.add({
+        "date": date,
+        "hour": hour,
+        "minute": minute,
+        "data": measurement
+    });
+
+    console.log(`${moduleName}: Added document with ID: `, res.id);
+    console.log(`${moduleName}: Measured data saved`);
+    return true;
+}
 
 // TODO import firebase firestore or realtime DB, or both
 // whichever we want to use
@@ -29,7 +60,7 @@ async function getDefaultData(unitInfo) {
 // user can ask for time between two timepoints, delimited by two timestamps
 async function getDataBetween(unitInfo, timeInterval) {
     // deconstruct timeInterval
-    var {start, finish} = timeInterval;
+    var { start, finish } = timeInterval;
     // deconstruct unitInfo
 
     // query unit info between start and finish date
@@ -37,19 +68,6 @@ async function getDataBetween(unitInfo, timeInterval) {
     // then we should query a larger block and filter data out
 }
 
-
-
-// saves unit data to db
-async function saveUnitData(unitData) {
-    var { userId, unitId, date, hour, minute, measurementData } = unitData;
-    console.log(`${moduleName}: saveUnitData called`);
-    // get dBreference
-    dbref = firestore.get(users / { userid } / units / { unitid } / days / { date } / hours / { hour } / minutes / { minute })
-    // add measurement data to DB
-    // dbref.add(measurementData)
-    console.log(`${moduleName}: Measured data saved`);
-    return true;
-}
 
 // returns unit information from db 
 async function getUnitInfo(unitIdentification) {

@@ -25,6 +25,7 @@ app.post('/data', function (req, res) {
     // send back HTTP status that everyting was fine
     // let status = 200; 
     // res.sendStatus(status);
+    console.log(`${moduleName}: post response sent\n`);
     res.send(`SERVER: Unit measurement data processed\n`);
   } else { 
     // TODO: add error handling and other status codes

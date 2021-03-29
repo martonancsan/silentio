@@ -8,6 +8,27 @@ const { saveUnitData } = require('../model')
 
 const moduleName = "CONTROLLER";
 
+// slices data to pieces 
+// creates database object 
+function processUnitData(unitData) {
+    let { unitId, date, hour, minute, measurementData } = unitData;
+    // var date = unitData.date;
+    // var hour = unitData.hour;
+    // var minute = unitData.minute;
+    // var measurementData = unitData.measurement;
+    let measurementString = JSON.stringify(unitData.measurement);
+
+    console.log(`${moduleName}: Unit measurement recieved from unit ${unitId}`);
+    console.log(`${moduleName}:Measurement took place on ${date} at ${hour}:${minute}`);
+    console.log(`${moduleName}:Measured data: ${measurementString}`);
+
+    // saves unit data to database
+    // returns true if data saved false if not
+    let unitDataSaved = saveUnitData(unitData);
+
+    return unitDataSaved;
+}
+
 // lists a units measurement data from a certain time period
 // used by the chart on the opening screen
 // this is the data that the user sees 
@@ -199,26 +220,7 @@ async function checkUnit() {
 
 
 
-// slices data to pieces 
-// creates database object 
-function processUnitData(unitData) {
-    let { unitId, date, hour, minute, measurementData } = unitData;
-    // var date = unitData.date;
-    // var hour = unitData.hour;
-    // var minute = unitData.minute;
-    // var measurementData = unitData.measurement;
-    let measurementString = JSON.stringify(unitData.measurement);
 
-    console.log(`${moduleName}: Unit measurement recieved from unit ${unitId}`);
-    console.log(`Measurement took place on ${date} at ${hour}:${minute}`);
-    console.log(`Measured data: ${measurementString}`);
-
-    // saves unit data to database
-    // returns true if data saved false if not
-    let unitDataSaved = saveUnitData(unitData);
-
-    return unitDataSaved;
-}
 
 // might not be needed, because 
 // converts measurement data 

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./router/router.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/martonancsan/silentio/issues"
   },
-  "homepage": "https://github.com/martonancsan/silentio#readme"
+  "homepage": "https://github.com/martonancsan/silentio#readme",
+  "dependencies": {
+    "firebase-admin": "^9.5.0"
+  }
 }
