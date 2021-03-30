@@ -3,7 +3,7 @@
 const express = require("express");
 const router = express.Router();
 const app = express();
-const { processUnitData } = require("../controller/controller.js");
+const { processUnitData, listUnitData } = require("../controller/controller.js");
 const moduleName = "ROUTER"
 
 app.use(express.urlencoded({ extended: false }));
@@ -13,8 +13,9 @@ app.use(express.json());
 
 
 // GET method route
-app.get('/', function (req, res) {
-  res.send('GET request to the homepage\n')
+app.get('/', async function (req, res) {
+  measurementData = await listUnitData()
+  res.send(`measurement data: ${measurementData}`)
 })
 
 // POST method route

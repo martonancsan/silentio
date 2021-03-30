@@ -23,7 +23,7 @@ async function saveUnitData(unitData) {
     console.log(`${moduleName}: saveUnitData called`);
 
     var { userId, unitId, date, hour, minute, measurement } = unitData;
-    
+
     // TODO: implement like this: get collection (users / { userid } / units / { unitid } / days / { date } / hours / { hour } / minutes / )
     // get collection of measurement for user and unit
     const collection = db.collection('users').doc('SfUF6EuUu9xQBFrG0Rxc')
@@ -40,6 +40,39 @@ async function saveUnitData(unitData) {
     console.log(`${moduleName}: Added document with ID: `, res.id);
     console.log(`${moduleName}: Measured data saved`);
     return true;
+}
+
+
+// gets a unit's all measurement data from db
+async function getUnitData() {
+    console.log(`${moduleName}: getUnitData called`);
+
+    // var { userId, unitId, date, hour, minute, measurement } = unitInfo;
+
+    const measurementCollection = db.collection('users').doc('SfUF6EuUu9xQBFrG0Rxc')
+        .collection('units').doc('749112039873').collection('measurements')
+
+    var unitData = [];
+
+    // const citiesRef = db.collection('cities');
+    // const snapshot = await citiesRef.get();
+    // snapshot.forEach(doc => {
+    //     console.log(doc.id, '=>', doc.data());
+    // });
+
+    const snapshot = await measurementCollection.get()
+    snapshot.forEach(doc => {
+        // console.log(doc.id, '=>', doc.data());
+        let measurementId = doc.id;
+        let measurementData = doc.data();
+        // let measurement.measurementId = measurementData ;
+        unitData.push(measurementId);
+        // console.log(`${moduleName}: Unit data: ${JSON.stringify(unitData)}`);
+    });
+
+    // console.log(`${moduleName}: Unit data returned`);
+    console.log(`${moduleName}: Unit data returned: ${JSON.stringify(unitData)}`);
+    return unitData;
 }
 
 // TODO import firebase firestore or realtime DB, or both
@@ -101,4 +134,4 @@ async function setUnitLocation(unitInfo) {
     return result;
 }
 
-module.exports = { saveUnitData }
+module.exports = { saveUnitData, getUnitData }

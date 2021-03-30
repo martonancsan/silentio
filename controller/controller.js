@@ -4,13 +4,13 @@
 // model.js: contains code that
 // import {saveUnitData} from './model';
 const { response } = require('express');
-const { saveUnitData } = require('../model')
+const { saveUnitData, getUnitData } = require('../model')
 
 const moduleName = "CONTROLLER";
 
 // slices data to pieces 
 // creates database object 
-function processUnitData(unitData) {
+async function processUnitData(unitData) {
     let { unitId, date, hour, minute, measurementData } = unitData;
     // var date = unitData.date;
     // var hour = unitData.hour;
@@ -24,31 +24,44 @@ function processUnitData(unitData) {
 
     // saves unit data to database
     // returns true if data saved false if not
-    let unitDataSaved = saveUnitData(unitData);
-
+    let unitDataSaved = await saveUnitData(unitData);
     return unitDataSaved;
 }
 
-// lists a units measurement data from a certain time period
-// used by the chart on the opening screen
-// this is the data that the user sees 
-async function listUnitData(unitInfo, timeInterval) {
-    // default case, when user sees data for the first time
-    if (timeInterval_is_not_defined) {
-        // set time interval to default values, last n hours of data
-        let finish = Date.now();
-        // TODO HOUR_INTERVAL to be defined in environment variable
-        let start = Date.now() - 12 * HOUR_INTERVAL;
-        timeInterval = { start, finish };
-        let unitData = getUnitData(unitInfo, timeInterval);
-    } else {
-        let unitData = getUnitData(unitInfo, timeInterval);
-    }
+// lists a unit's all measurement data 
+async function listUnitData() {
+    console.log(`${moduleName}: listUnitData called`);
+    let unitData = await getUnitData();
+    console.log(`${moduleName}: listUnitData returns: ${unitData}`);
+
     return unitData;
     // TODO: we have to handle if the requested data range is longer than what can be returned
     // TODO: have to handle if unit is not found or no data is found for it
     // TODO: have to handle if unit data is not enough to show
 }
+
+
+
+// // lists a units measurement data from a certain time period
+// // used by the chart on the opening screen
+// // this is the data that the user sees 
+// async function listUnitData(unitInfo, timeInterval) {
+//     // default case, when user sees data for the first time
+//     if (timeInterval_is_not_defined) {
+//         // set time interval to default values, last n hours of data
+//         let finish = Date.now();
+//         // TODO HOUR_INTERVAL to be defined in environment variable
+//         let start = Date.now() - 12 * HOUR_INTERVAL;
+//         timeInterval = { start, finish };
+//         let unitData = getUnitData(unitInfo, timeInterval);
+//     } else {
+//         let unitData = getUnitData(unitInfo, timeInterval);
+//     }
+//     return unitData;
+//     // TODO: we have to handle if the requested data range is longer than what can be returned
+//     // TODO: have to handle if unit is not found or no data is found for it
+//     // TODO: have to handle if unit data is not enough to show
+// }
 
 
 
@@ -275,4 +288,4 @@ function updateCache(unitInfo) {
 // - when most things are done create some sort of cache to reduce database operations (not prio)
 
 
-module.exports = { processUnitData }
+module.exports = { processUnitData, listUnitData }
