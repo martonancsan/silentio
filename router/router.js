@@ -3,7 +3,7 @@
 const express = require("express");
 const router = express.Router();
 const app = express();
-const { processUnitData, listUnitData } = require("../controller/controller.js");
+const { processUnitData, listUnitData } = require("../controller");
 const moduleName = "ROUTER"
 
 app.use(express.urlencoded({ extended: false }));
