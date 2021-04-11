@@ -13,6 +13,16 @@ app.use(express.json());
 
 
 // GET method route
+app.get('/measurementData', async function (req, res) {
+  measurementData = await listUnitData()
+  // measurementData = ["6madgnC1rU9GsLJfKxiz","86JXPOp0l8FFSDYwRDys","Djhe2H160aRnzc7ji9wf","EXoxXWrwOhV1y9YuO4Y8","WON12PyCNiIEvGFJRCLJ",
+  // "lDAg51kN43vaLVE7I3kV","uCEGpkP16SiEPR6Yw9bf","uMyj2gV8tmwjBBRsJWdY"];
+  // // res.send(`measurement data: ${measurementData}`)
+  // console.log(`dummy data sent, first element: ${measurementData[0]}`)
+  res.send(measurementData)
+})
+
+// GET method route
 app.get('/measurementIds', async function (req, res) {
   measurementData = await listUnitData()
   // measurementData = ["6madgnC1rU9GsLJfKxiz","86JXPOp0l8FFSDYwRDys","Djhe2H160aRnzc7ji9wf","EXoxXWrwOhV1y9YuO4Y8","WON12PyCNiIEvGFJRCLJ",
@@ -21,6 +31,7 @@ app.get('/measurementIds', async function (req, res) {
   // console.log(`dummy data sent, first element: ${measurementData[0]}`)
   res.send(measurementData)
 })
+
 
 // POST method route
 app.post('/data', function (req, res) {
