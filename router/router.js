@@ -13,9 +13,13 @@ app.use(express.json());
 
 
 // GET method route
-app.get('/', async function (req, res) {
+app.get('/measurementIds', async function (req, res) {
   measurementData = await listUnitData()
-  res.send(`measurement data: ${measurementData}`)
+  // measurementData = ["6madgnC1rU9GsLJfKxiz","86JXPOp0l8FFSDYwRDys","Djhe2H160aRnzc7ji9wf","EXoxXWrwOhV1y9YuO4Y8","WON12PyCNiIEvGFJRCLJ",
+  // "lDAg51kN43vaLVE7I3kV","uCEGpkP16SiEPR6Yw9bf","uMyj2gV8tmwjBBRsJWdY"];
+  // // res.send(`measurement data: ${measurementData}`)
+  // console.log(`dummy data sent, first element: ${measurementData[0]}`)
+  res.send(measurementData)
 })
 
 // POST method route
@@ -36,6 +40,6 @@ app.post('/data', function (req, res) {
   }
 });
 
-app.listen(3000, () => {
-  console.log("Started on PORT 3000");
+app.listen(3001, () => {
+  console.log("Started on PORT 3001");
 })
