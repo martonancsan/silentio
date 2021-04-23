@@ -4,17 +4,7 @@ import DataChart from "./DataChart";
 // import Client from "./Client";
 // const MATCHING_ITEM_LIMIT = 25;
 
-
-function parseJSON(response) {
-  return response.json();
-}
-
-function getData(cb) {
-  return fetch(`measurementData`, {
-    accept: "application/json"
-  })
-    .then(parseJSON);
-}
+export default App;
 
 class App extends React.Component {
   constructor(props) {
@@ -28,22 +18,16 @@ class App extends React.Component {
 
 
   async loadData() {
-    // fill measurementIdList data with Client.js data fetch
-
     let measurementData = await getData();
-
     this.setState({
       chartData: measurementData
     })
-
   }
 
   async clearData() {
-
     this.setState({
       chartData: defaultData
-    })
-
+    });
   }
 
   render() {
@@ -57,20 +41,22 @@ class App extends React.Component {
           <ClearButton callback={this.clearData} />
         </div>
       </div>
-      // return (
-      //   <div className="App">
-      //     <div className="ui text container">
-      //       <button onClick={this.loadData}>
-      //         Get Data
-      //       </button>
-      //       <DataTable
-      //         measurementIds={measurementIdList}
-      //       />
-      //     </div>
-      //   </div>
     );
   }
 }
+
+
+function parseJSON(response) {
+  return response.json();
+}
+
+function getData(cb) {
+  return fetch(`measurementData`, {
+    accept: "application/json"
+  })
+    .then(parseJSON);
+}
+
 
 function RefreshButton(props) {
   return (
@@ -87,8 +73,6 @@ function ClearButton(props) {
     </div>
   );
 }
-
-export default App;
 
 const defaultData = [
   { time: 0, dB: 0, dBavg: 0
