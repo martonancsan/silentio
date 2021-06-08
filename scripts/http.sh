@@ -3,6 +3,6 @@
 for i in {1..10}; do
     echo -n "CLIENT : Data frame $i sent at "
     date
-    curl -d "@data.json" -H "Content-Type: application/json" -X POST http://localhost:3000/data
-    sleep 2
+    curl -d "@data.json" -H "Content-Type: application/json" -X POST https://us-central1-database-project-7369c.cloudfunctions.net/router/saveUnitData
+    sleep 0.5s
 done
