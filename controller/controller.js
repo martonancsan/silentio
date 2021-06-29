@@ -34,11 +34,42 @@ async function listUnitData() {
     let unitData = await getUnitData();
     console.log(`${moduleName}: listUnitData returns: ${unitData}`);
 
+
     return unitData;
     // TODO: we have to handle if the requested data range is longer than what can be returned
     // TODO: have to handle if unit is not found or no data is found for it
     // TODO: have to handle if unit data is not enough to show
 }
+
+
+// transform a unit's data to make it displayable with Rechart 
+function createDisplayData(unitData) {
+    var transformedData = [];
+    // iterate through all dataframes by minute long dataframes
+    for (var i = 0; i < unitData.length; i++) {
+        var minuteData = unitData[i];
+        var timeStamp = minuteData["time"];
+        var levels = minuteData.soundLevels;
+    
+        // a time value is displayed with every minute 
+        // dataframe with first dB level value, the ot
+        transformedData.push({time:timeStamp, dB:levels[0]});
+        for (var j = 1; j < levels.length; j++){
+            transformedData.push({time:"", dB:levels[j]})
+        } 
+        // for (var key in minuteData) {
+        //     var value = minuteData[key];
+        //     console.log(`key: ${key}, value: ${value}`);
+        // }
+    }
+    console.log(`transformedData: ${JSON.stringify(transformedData)}`);
+
+    return transformedData;
+    // TODO: we have to handle if the requested data range is longer than what can be returned
+    // TODO: have to handle if unit is not found or no data is found for it
+    // TODO: have to handle if unit data is not enough to show
+}
+
 
 
 
@@ -288,4 +319,4 @@ function updateCache(unitInfo) {
 // - when most things are done create some sort of cache to reduce database operations (not prio)
 
 
-module.exports = { processUnitData, listUnitData }
+module.exports = { processUnitData, listUnitData, createDisplayData }
