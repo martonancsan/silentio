@@ -8,38 +8,41 @@ const { saveUnitData, getUnitData } = require('../model')
 
 const moduleName = "CONTROLLER";
 
-// slices data to pieces 
-// creates database object 
-async function processUnitData(unitData) {
-    let { unitId, date, hour, minute, measurementData } = unitData;
-    // var date = unitData.date;
-    // var hour = unitData.hour;
-    // var minute = unitData.minute;
-    // var measurementData = unitData.measurement;
-    let measurementString = JSON.stringify(unitData.measurement);
 
-    console.log(`${moduleName}: Unit measurement recieved from unit ${unitId}`);
-    console.log(`${moduleName}:Measurement took place on ${date} at ${hour}:${minute}`);
-    console.log(`${moduleName}:Measured data: ${measurementString}`);
-
-    // saves unit data to database
-    // returns true if data saved false if not
-    let unitDataSaved = await saveUnitData(unitData);
-    return unitDataSaved;
-}
+//     // saves unit data to database
+//     // returns true if data saved false if not
+//     let unitDataSaved = await saveUnitData(unitData);
+//     return unitDataSaved;
+// }
 
 // lists a unit's all measurement data 
-async function listUnitData() {
-    console.log(`${moduleName}: listUnitData called`);
-    let unitData = await getUnitData();
-    console.log(`${moduleName}: listUnitData returns: ${unitData}`);
+async function getDisplayData(unitInfo) {
+    console.log(`${moduleName}: getUnitData called`);
+    let unitData = await getUnitData(unitInfo);
+    console.log(`${moduleName}: getUnitData returns: ${unitData}`);
 
+    var displayData = createDisplayData(unitData);
 
-    return unitData;
+    return displayData;
     // TODO: we have to handle if the requested data range is longer than what can be returned
     // TODO: have to handle if unit is not found or no data is found for it
     // TODO: have to handle if unit data is not enough to show
 }
+
+
+// // slices data to pieces 
+// // creates database object 
+// async function processUnitData(unitData) {
+//     let { unitId, date, hour, minute, measurementData } = unitData;
+//     // var date = unitData.date;
+//     // var hour = unitData.hour;
+//     // var minute = unitData.minute;
+//     // var measurementData = unitData.measurement;
+//     let measurementString = JSON.stringify(unitData.measurement);
+
+//     console.log(`${moduleName}: Unit measurement recieved from unit ${unitId}`);
+//     console.log(`${moduleName}: Measurement took place on ${date} at ${hour}:${minute}`);
+//     console.log(`${moduleName}: Measured data: ${measurementString}`);
 
 
 // transform a unit's data to make it displayable with Rechart 
@@ -319,4 +322,4 @@ function updateCache(unitInfo) {
 // - when most things are done create some sort of cache to reduce database operations (not prio)
 
 
-module.exports = { processUnitData, listUnitData, createDisplayData }
+module.exports = { processUnitData, listUnitData, getDisplayData }

@@ -17,9 +17,9 @@ class App extends React.Component {
 
 
   async loadData() {
-    let measurementData = await getData();
+    let displayData = await getDisplayData();
     this.setState({
-      chartData: measurementData
+      chartData: displayData
     })
   }
 
@@ -49,8 +49,10 @@ function parseJSON(response) {
   return response.json();
 }
 
-function getData(cb) {
-  return fetch(`measurementData`, {
+function getDisplayData(cb) {
+  const userId;
+  const unitId;
+  return fetch(`/getDisplayData/user/${userId}/unit/${unitId}`, {
     accept: "application/json"
   })
     .then(parseJSON);

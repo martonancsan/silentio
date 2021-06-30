@@ -3,6 +3,7 @@ const functions = require("firebase-functions");
 const express = require("express");
 const restAPI = express();
 const { saveUnitData, getUnitData } = require("./model");
+const { getDisplayData } = require("./controller");
 const { user } = require("firebase-functions/lib/providers/auth");
 restAPI.use(express.urlencoded({ extended: false }));
 restAPI.use(express.json());
@@ -24,13 +25,13 @@ restAPI.post('/saveUnitdata', async function (req, res) {
 });
 
 // route GET request from unit
-restAPI.get('/getUnitData/user/:userId/unit/:unitId', async function (req, res) {
+restAPI.get('/getDisplayData/user/:userId/unit/:unitId', async function (req, res) {
     const unitInfo = { 
         userId: req.params.userId,
         unitId: req.params.unitId 
     }
-    measurementData = await getUnitData(unitInfo)
-    res.send(measurementData)
+    displayData = await getDisplayData(unitInfo)
+    res.send(displayData)
 });
 
 
