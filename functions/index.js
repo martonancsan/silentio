@@ -6,12 +6,13 @@ const cors = require("cors")({ origin: true });
 
 const express = require("express");
 const restAPI = express();
-const { saveUnitData, getTargetFirmwareUrl, setTargetFirmwareUrl, setTargetFirmwareVersion } = require("./model");
+const { saveUnitData, getTargetFirmwareUrl, setTargetFirmwareUrl, setTargetFirmwareVersion,
+setLimit } = require("./model");
 const { getDisplayData, isLimitCrossed, firmwareNeedsUpdate } = require("./controller");
 const { user } = require("firebase-functions/lib/providers/auth");
 restAPI.use(express.urlencoded({ extended: false }));
 restAPI.use(express.json());
-const moduleName = "router";
+const moduleName = "ROUTER";
 
 // POST request: unit sends measurement data periodically
 restAPI.post('/saveUnitdata', async function (req, res) {
@@ -21,14 +22,18 @@ restAPI.post('/saveUnitdata', async function (req, res) {
     let recordingId = 0;
     if (saveUnitData(req.body)) {
         processingStatus = "OK";
-        if (!isLimitCrossed(req.body)) {
+        if (!await isLimitCrossed(req.body)) {
+            console.log(`${moduleName}: limit not crossed, recording ID:${recordingId}`);
             res.send(`Processing:${processingStatus},Playing:${recordingId}\n`);
         } else {
             recordingId = 1;
+            // értesítő kuldunk a unit ownerének emailcímére
+            console.log(`${moduleName}: limit crossed, recording ID:${recordingId}`);
             res.send(`Processing:${processingStatus},Playing:${recordingId}\n`);
         }
         // console.log(`${moduleName}: post response sent\n`);
     } else {
+        console.log(`${moduleName}: processing not OK, recording ID:${recordingId}`);
         res.send(`Processing:${processingStatus},Playing:${recordingId}\n`);
     }
 });
@@ -75,6 +80,22 @@ restAPI.post('/setTargetFirmwareVersion', async function (req, res) {
         res.send(`Processing:${processingStatus},targetFirmwareVersion set:${version}\n`);
     } else {
         res.send(`Processing:${processingStatus},targetFirmwareVersion set:${version}\n`);
+    }
+});
+
+restAPI.post('/setLimit', async function (req, res) {
+    // save unit data to DB
+    console.log(`${moduleName}: /setLimit - POST request received`);
+    let processingStatus = "KO";
+    let newLimit = "empty";
+    if (setLimit(req.body)) {
+        processingStatus = "OK";
+        newLimit = req.body.newLimit;
+        console.log(`${moduleName}: limit set to ${newLimit}`);
+        res.send(`Processing:${processingStatus},limit set:${newLimit}\n`);
+    } else {
+        console.log(`${moduleName}: /setLimit - POST request received`);
+        res.send(`Processing:${processingStatus},limit set:${newLimit}\n`);
     }
 });
 

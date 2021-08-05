@@ -71,7 +71,20 @@ async function setTargetFirmwareVersion(unitData) {
 }
 
 async function setLimit(unitData) {
+    // console.log(`${moduleName}: setFirmwareURL called`);
 
+    var { userId, unitId, newLimit } = unitData;
+    // console.log(`${moduleName}: userId: ${userId}`);
+    // console.log(`${moduleName}: unitId: ${unitId}`);
+    // console.log(`${moduleName}: URL: ${url}`);
+
+
+    db.collection('users').doc(userId)
+        .collection('units').doc(unitId).set({
+            limit: newLimit
+        }, { merge: true })
+
+    return true;
 }
 
 
@@ -114,12 +127,12 @@ async function getCurrentLimit(unitInfo) {
 
     const doc = await docRef.get();
     if (!doc.exists) {
-        console.log(`No limit data found for User ID: ${userId} unitId: ${unitId}`);
+        console.log(`${moduleName}: No limit data found for User ID: ${userId} unitId: ${unitId}`);
         return -1;
     } else {
         var limitValue = doc.get('limit');
-        console.log(`typeof limitValue:${typeof limitValue}`)
-        console.log("limitValue:", limitValue);
+        console.log(`${moduleName}: typeof limitValue: ${typeof limitValue}`)
+        console.log(`${moduleName}: limitValue: ${limitValue}`);
         return limitValue;
     }
 
@@ -165,5 +178,6 @@ async function getTargetFirmwareVersion(unitInfo) {
 
 module.exports = {
     saveUnitData, getUnitData, getCurrentLimit,
-    getTargetFirmwareUrl, getTargetFirmwareVersion, setTargetFirmwareUrl, setTargetFirmwareVersion
+    getTargetFirmwareUrl, getTargetFirmwareVersion, setTargetFirmwareUrl, 
+    setTargetFirmwareVersion, setLimit
 }

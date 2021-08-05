@@ -72,19 +72,21 @@ function avgerageData(measurementData) {
 
 // checks is average of measurements is larget than limit
 async function isLimitCrossed(unitInfo) {
+
     let avg = 0;
     var limit = await getCurrentLimit(unitInfo);
-    // console.log(`${moduleName}: isLimitCrossed called`);
-    // console.log(`${moduleName}: limit: ${ limit}`);
-    // console.log(`${moduleName}: limit: ${ limit}`);
+    console.log(`${moduleName}: isLimitCrossed called`);
+    console.log(`${moduleName}: limit: ${ limit}`);
 
     avg = avgerageData(unitInfo.soundLevels);
     if (avg > limit) {
-        console.log(`limit: ${limit} < average: ${avg}, limit crossed`);
+        console.log(`${moduleName}: limit: ${limit} < average: ${avg}, limit crossed`);
+        console.log(`${moduleName}: isLimitCrossed returning TRUE`);
         return true;
     }
     else {
-        console.log(`limit: ${limit} > average: ${avg}, limit not crossed`);
+        console.log(`${moduleName}: limit: ${limit} > average: ${avg}, limit not crossed`);
+        console.log(`${moduleName}: isLimitCrossed returning FALSE`);
         return false;
     }
 }
