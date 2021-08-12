@@ -20,7 +20,7 @@ restAPI.post('/saveUnitdata', async function (req, res) {
     console.log(`${moduleName}: post request received`);
     let processingStatus = "KO";
     let recordingId = 0;
-    if (saveUnitData(req.body)) {
+    if (await saveUnitData(req.body)) {
         processingStatus = "OK";
         if (!await isLimitCrossed(req.body)) {
             console.log(`${moduleName}: limit not crossed, recording ID:${recordingId}`);
